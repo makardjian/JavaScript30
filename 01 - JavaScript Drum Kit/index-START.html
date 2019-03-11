@@ -59,6 +59,30 @@
 
 <script>
 
+function playSound(e){
+  const keyCode = e.keyCode;
+  const audio = document.querySelector(`audio[data-key="${keyCode}"]`);
+  const key = document.querySelector(`.key[data-key="${keyCode}"]`);
+  if (!audio) return; //stop the funciton if key pressed does not have audio
+  audio.play(); //play the sound
+  key.classList.add('playing'); //add the 'playing' class to trigger CSS
+}
+
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return;
+  console.log(e.propertyName);
+  this.classList.remove('playing');
+}
+
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => {
+  //itterate over each div element in the array and add an eventListener
+    //that will invoke removeTransition whenever a transitionend event occurs
+      //which will happen 0.7 seconds after a key is pressed.
+  key.addEventListener('transitionend', removeTransition)
+});
+window.addEventListener('keydown', playSound);
+
 </script>
 
 
